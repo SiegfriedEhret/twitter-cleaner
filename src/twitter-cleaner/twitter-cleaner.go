@@ -23,6 +23,8 @@ var (
 	accessTokenSecret string
 	age               int
 	debug             bool
+
+	total int
 	now               = time.Now()
 	api               *anaconda.TwitterApi
 )
@@ -65,12 +67,15 @@ func main() {
 		return
 	}
 
-	for _, id := range cursor.Ids {
-		processId(id)
+	ids := cursor.Ids
+	total = len(ids)
+
+	for i, id := range ids {
+		processId(id, i)
 	}
 }
 
-func processId(id int64) {
+func processId(id int64, i int) {
 	var idArray []int64
 	idArray = append(idArray, id)
 	user, err := api.GetUsersLookupByIds(idArray, nil)
@@ -80,11 +85,11 @@ func processId(id int64) {
 		return
 	}
 
-	getUserTimeline(user[0])
+	getUserTimeline(user[0], i)
 }
 
-func getUserTimeline(user anaconda.User) {
-	logrus.Debugf("Checking %s (%s)", user.Name, user.ScreenName)
+func getUserTimeline(user anaconda.User, i int) {
+	logrus.Debugf("[%d/%d] Checking %s (%s)", i, total, user.Name, user.ScreenName)
 
 	v := url.Values{}
 	v.Set("screen_name", user.ScreenName)
@@ -97,11 +102,11 @@ func getUserTimeline(user anaconda.User) {
 	}
 
 	if len(timeline) > 0 {
-		shouldRemoveQuestionMark(timeline, user)
+		shouldRemoveQuestionMark(timeline, user, i)
 	}
 }
 
-func shouldRemoveQuestionMark(timeline []anaconda.Tweet, user anaconda.User) {
+func shouldRemoveQuestionMark(timeline []anaconda.Tweet, user anaconda.User, i int) {
 	tweet := timeline[0]
 
 	tweetTime, err := tweet.CreatedAtTime()
@@ -115,7 +120,7 @@ func shouldRemoveQuestionMark(timeline []anaconda.Tweet, user anaconda.User) {
 	logrus.Debugf("Days from last tweet %d", daysFromLastTweet)
 
 	if daysFromLastTweet > age {
-		fmt.Printf("Unfollow %s (last seen: %s) ? (y/N) ", user.ScreenName, tweetTime)
+		fmt.Printf("[%d/%d] Unfollow %s (last seen: %s) ? (y/N) ", i, total, user.ScreenName, tweetTime)
 
 		var toDelete string
 		if fmt.Scanf("%s", &toDelete); toDelete == "y" {

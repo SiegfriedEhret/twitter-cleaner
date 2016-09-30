@@ -45,7 +45,6 @@ func init() {
 	if debug {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
-
 }
 
 func main() {
@@ -127,5 +126,8 @@ func shouldRemoveQuestionMark(timeline []anaconda.Tweet, user anaconda.User) {
 
 func doRemove(user anaconda.User) {
 	logrus.Debugf("Goodbye old friend! %s (%s)", user.Name, user.ScreenName)
-	api.UnfollowUserId(user.Id)
+	_, err := api.UnfollowUserId(user.Id)
+	if err != nil {
+		fmt.Println("Failed to unfollow !", err)
+	}
 }

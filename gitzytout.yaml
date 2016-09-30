@@ -1,0 +1,3 @@
+main: git@gitlab.com:SiegfriedEhret/twitter-cleaner.git
+mirrors:
+- git@github.com:SiegfriedEhret/twitter-cleaner.git

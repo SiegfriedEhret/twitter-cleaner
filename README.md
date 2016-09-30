@@ -10,6 +10,7 @@ A small thing to check who you follow on Twitter, and it they are alive. Also, i
 go get -u gitlab.com/SiegfriedEhret/twitter-cleaner/...
 ```
 
+(BTW the source is at [gitlab](https://gitlab.com/SiegfriedEhret/twitter-cleaner) and [github](https://github.com/SiegfriedEhret/twitter-cleaner) thanks to [gitzytout](https://gitlab.com/SiegfriedEhret/gitzytout))
 ## Usage
 
 You need to [create a Twitter app](https://apps.twitter.com/).

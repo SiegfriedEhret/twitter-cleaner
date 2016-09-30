@@ -13,7 +13,7 @@ go get -u gitlab.com/SiegfriedEhret/twitter-cleaner/...
 (BTW the source is at [gitlab](https://gitlab.com/SiegfriedEhret/twitter-cleaner) and [github](https://github.com/SiegfriedEhret/twitter-cleaner) thanks to [gitzytout](https://gitlab.com/SiegfriedEhret/gitzytout))
 ## Usage
 
-You need to [create a Twitter app](https://apps.twitter.com/).
+You need to [create a Twitter app](https://apps.twitter.com/) (you'll need *write* permission to unfollow).
 
 ```
 $ twitter-cleaner -h
